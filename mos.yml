@@ -1,0 +1,44 @@
+author: d4rkmen <darkmen@i.ua>
+description: WiFi setup library
+type: lib
+version: 1.1
+
+tags:
+  - c
+  - hw
+
+sources:
+  - src
+
+includes:
+  - include
+
+filesystem:
+  - fs
+
+config_schema:
+  - [ "cportal", "o", {title: "Captive Portal configurations"}]
+  - [ "cportal.index", "wifi_portal.html" ]
+  - [ "cportal.rpc.enable", "b", true, {title: "Enable WiFi captive portal RPC endpoints on device boot"}]
+  - [ "cportal.rpc.disable", "b", true, {title: "Disable RPC endpoints after successful WiFi test"}]
+  - [ "cportal.rpc.apsta", "b", false, {title: "(ESP32 only) When RPC is enabled, make sure device is in AP+STA mode to prevent client disconnect when Scan called to switch"}]
+  
+
+libs:
+  - origin: https://github.com/mongoose-os-libs/wifi
+  - origin: https://github.com/mongoose-os-libs/http-server
+  - origin: https://github.com/mongoose-os-libs/rpc-common
+  - origin: https://github.com/mongoose-os-libs/rpc-ws
+  - origin: https://github.com/mongoose-os-libs/rpc-service-config
+  - origin: https://github.com/mongoose-os-libs/rpc-service-wifi
+  
+  
+cdefs:
+  MG_ENABLE_DNS: 1
+  MG_ENABLE_DNS_SERVER: 1
+  MG_ENABLE_CALLBACK_USERDATA: 1
+  MGOS_ENABLE_WIFI_SETUP_CHECK: 0
+  # Keep AP enabled while STA active (this needs to be set to 1, but can be bypassed by setting "wifi.ap.keep_enabled" to false later on in code)
+  MGOS_WIFI_ENABLE_AP_STA: 1
+# Used by the mos tool to catch mos binaries incompatible with this file format
+manifest_version: 2020-08-02
